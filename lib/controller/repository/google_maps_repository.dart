@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:maps_pilote/controller/intefaces/google_inteface.dart';
 
 Dio _dio = Dio();
@@ -21,6 +20,7 @@ class GoogleMapsRepository implements IGoogleApi {
         "bounds": bounds,
       };
     } catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   }
