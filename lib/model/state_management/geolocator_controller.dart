@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
@@ -15,6 +17,24 @@ abstract class _GeoLocatorControllerBase with Store {
         desiredAccuracy: LocationAccuracy.high);
 
     return position;
+  }
+
+  @action
+  Future listenerPosition() async {
+    await Geolocator.checkPermission().then((LocationPermission permission) {
+      print(" =============================> $permission");
+
+      if (permission == LocationPermission.whileInUse ||
+          permission == LocationPermission.always) {
+        print("===========================================>>>>>> Nothing");
+      } else if (permission == LocationPermission.denied) {
+        print(
+            "===========================================>>>>>> Need to permition");
+        Geolocator.requestPermission();
+      } else {
+        Exception('Is necessary to enable your location');
+      }
+    });
   }
 
   @action

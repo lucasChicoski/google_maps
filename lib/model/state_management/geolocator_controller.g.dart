@@ -17,6 +17,14 @@ mixin _$GeoLocatorController on _GeoLocatorControllerBase, Store {
     return _$getMyPositionAsyncAction.run(() => super.getMyPosition());
   }
 
+  final _$listenerPositionAsyncAction =
+      AsyncAction('_GeoLocatorControllerBase.listenerPosition');
+
+  @override
+  Future<dynamic> listenerPosition() {
+    return _$listenerPositionAsyncAction.run(() => super.listenerPosition());
+  }
+
   final _$determinePositionAsyncAction =
       AsyncAction('_GeoLocatorControllerBase.determinePosition');
 

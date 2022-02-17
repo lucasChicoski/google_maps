@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_pilote/model/state_management/geolocator_controller.dart';
 import 'package:maps_pilote/model/state_management/google_maps.dart';
 import 'package:maps_pilote/model/state_management/locations_mobx.dart';
 import 'package:maps_pilote/model/state_management/open_routes_services_mobx.dart';
@@ -12,6 +13,7 @@ GoogleMapsControllerMobX _googleMapsController =
 PolyLinePointsMobx _polyLinePointsMobx = GetIt.I<PolyLinePointsMobx>();
 OpenRouteServicesMobx _openRouteServicesMobx = GetIt.I<OpenRouteServicesMobx>();
 LocationMobx _locationMobx = GetIt.I<LocationMobx>();
+GeoLocatorController _geoLocatorController = GetIt.I<GeoLocatorController>();
 
 class GoogleMaps extends StatefulWidget {
   const GoogleMaps({Key? key}) : super(key: key);
@@ -23,6 +25,7 @@ class GoogleMaps extends StatefulWidget {
 class _GoogleMapsState extends State<GoogleMaps> {
   @override
   void initState() {
+   //_geoLocatorController.listenerPosition();
     _locationMobx.currentPositionListener();
     _locationMobx.setSourceAndDestinationIcons();
     super.initState();
