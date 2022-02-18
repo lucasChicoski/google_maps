@@ -8,6 +8,7 @@ import 'package:maps_pilote/controller/repository/google_maps_repository.dart';
 import 'package:maps_pilote/controller/repository/open_routes_service_repository.dart';
 import 'package:maps_pilote/model/state_management/open_routes_services_mobx.dart';
 import 'package:maps_pilote/model/state_management/polyline_points_mobx.dart';
+import 'package:maps_pilote/model/state_management/widgets_google_maps_screen_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 import 'geolocator_controller.dart';
@@ -19,6 +20,8 @@ PolyLinePointsMobx _polyLinePointsMobx = GetIt.I<PolyLinePointsMobx>();
 GoogleMapsRepository _googleMapsRepository = GoogleMapsRepository();
 OpenRoutesServiceRepository _openRoutesServiceRepository =
     OpenRoutesServiceRepository();
+WidgetsGoogleMapsScreenMobx _widgetsGoogleMapsScreenMobx =
+    GetIt.I<WidgetsGoogleMapsScreenMobx>();
 
 @lazySingleton
 class GoogleMapsControllerMobX = _GoogleMapsControllerMobXBase
@@ -90,9 +93,14 @@ abstract class _GoogleMapsControllerMobXBase with Store {
 
   @action
   Future centerRoute() async {
-    GoogleMapController controller = await mobXController.future;
-    controller.animateCamera(CameraUpdate.newLatLngBounds(
-        _openRouteServicesMobx.bounds!, 25)); // google maps bounds
+    try {
+      GoogleMapController controller = await mobXController.future;
+      controller.animateCamera(CameraUpdate.newLatLngBounds(
+          _openRouteServicesMobx.bounds!, 25)); // google maps bounds
+    } catch (e) {
+      _widgetsGoogleMapsScreenMobx.setshowSnackBar();
+      print(e);
+    }
   }
 
   @action

@@ -8,10 +8,10 @@ Dio _dio = Dio();
 class OpenRoutesServiceRepository implements IOpenRoutesService {
   @override
   Future openRoutesServiceDirections(double latOrigin, double lngOrigin,
-      double latDestiny, double lngDestiny) async {
+      double latDestiny, double lngDestiny) async { //, , , 
     //sequencia - longitude - latitude
     String url =
-        'https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e36d09a9ff984da583b56df009b16c5c&start=-40.394023048240165,-20.35106118008441&end=-40.2891825697488,-20.312029756641685';
+        'https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e36d09a9ff984da583b56df009b16c5c&start=-40.39415524101291,-20.35093006517498&end=-40.39330107590242,-20.344002999305705';
 
     try {
       final response = await _dio.get(url);
