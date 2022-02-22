@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mapbox_navigation/library.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_pilote/model/state_management/geolocator_controller.dart';
 import 'package:maps_pilote/model/state_management/google_maps.dart';
+import 'package:maps_pilote/model/state_management/mapbox_mobx.dart';
 import 'package:maps_pilote/model/state_management/open_routes_services_mobx.dart';
 import 'package:maps_pilote/model/state_management/polyline_points_mobx.dart';
 import 'package:maps_pilote/model/state_management/widgets_google_maps_screen_mobx.dart';
@@ -16,6 +18,7 @@ OpenRouteServicesMobx _openRouteServicesMobx = GetIt.I<OpenRouteServicesMobx>();
 WidgetsGoogleMapsScreenMobx _widgetsGoogleMapsScreenMobx =
     GetIt.I<WidgetsGoogleMapsScreenMobx>();
 GeoLocatorController _geoLocatorController = GetIt.I<GeoLocatorController>();
+MapBoxMobx _mapBoxMobx = GetIt.I<MapBoxMobx>();
 
 class GoogleMaps extends StatefulWidget {
   const GoogleMaps({Key? key}) : super(key: key);
@@ -29,6 +32,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   @override
   void initState() {
+    _mapBoxMobx.directions =
+        MapBoxNavigation(onRouteEvent: _mapBoxMobx.onRouteEvent);
     _geoLocatorController.setMarker(_googleMapsController.myCurrentPosition);
     super.initState();
   }
@@ -60,8 +65,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   void mySnackBar() {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("Você precisa de definir uma rota !")));
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Você precisa de definir uma rota !")));
   }
 
   @override
@@ -97,6 +102,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
                         color: Colors.grey.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(10)),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Switch(
                           value: _widgetsGoogleMapsScreenMobx.switchButton,
@@ -135,6 +142,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
+                    backgroundColor: Colors.red,
                     onPressed: _googleMapsController.centerRoute,
                     child: const Icon(Icons.navigation_outlined),
                   ),
@@ -142,8 +150,12 @@ class _GoogleMapsState extends State<GoogleMaps> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
+                    backgroundColor: Colors.yellow,
                     onPressed: _googleMapsController.setMyCurrentPosition,
-                    child: const Icon(Icons.my_location_rounded),
+                    child: const Icon(
+                      Icons.my_location_rounded,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 Padding(
@@ -151,6 +163,15 @@ class _GoogleMapsState extends State<GoogleMaps> {
                   child: FloatingActionButton(
                     onPressed: _googleMapsController.getRoutes,
                     child: const Icon(Icons.sports_score_outlined),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.green,
+                    onPressed: _mapBoxMobx.startNavigate,
+                    child:
+                        const Icon(Icons.airline_seat_recline_normal_rounded),
                   ),
                 ),
               ],

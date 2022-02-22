@@ -45,6 +45,8 @@ dependencies:
   dio: ^4.0.4
   flutter_polyline_points: ^1.0.0
   location: ^4.3.0
+  responsive_framework: ^0.1.7
+  flutter_mapbox_navigation: ^0.0.26
 
 dev_dependencies:
   flutter_test:
