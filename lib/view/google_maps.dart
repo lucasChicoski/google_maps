@@ -76,11 +76,12 @@ class _GoogleMapsState extends State<GoogleMaps> {
       child: Stack(
         children: [
           Observer(builder: (_) {
-            return GoogleMap(
+            //Configuração Google Maps
+            return GoogleMap( //Widget
               onMapCreated: ((GoogleMapController controller) {
-                _googleMapsController.mobXController.complete(controller);
-              }),
-              polylines: _openRouteServicesMobx
+                _googleMapsController.mobXController.complete(controller); // Controlador do mapa
+              }), //Criação do mapa
+              polylines: _openRouteServicesMobx //Lista de Polylines
                   .polyLines, //_polyLinePointsMobx.polyLines
               markers: _geoLocatorController.markers,
               myLocationEnabled: _widgetsGoogleMapsScreenMobx.showMyPointer,
